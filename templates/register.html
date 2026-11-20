@@ -1,0 +1,18 @@
+{% extends "base.html" %}
+{% block title %}Регистрация — СтопКонтроль{% endblock %}
+{% block content %}
+<main class="auth">
+  <div class="logo"><svg class="ic"><use href="#i-alert"/></svg></div>
+  <h1>СтопКонтроль</h1>
+  <p class="lead">Отмечайте контроль на остановках и узнавайте о нём от других пассажиров.</p>
+  <form method="post" class="form">
+    <input type="hidden" name="csrf" value="{{ csrf_token() }}">
+    <label>Ваше имя<input name="name" value="{{ name }}" autocomplete="nickname" minlength="2" maxlength="30" required></label>
+    <label>Электронная почта<input type="email" name="email" value="{{ email }}" autocomplete="email" inputmode="email" required></label>
+    <label>Пароль (не менее 8 символов)<input type="password" name="password" autocomplete="new-password" minlength="8" required></label>
+    <button class="btn primary block">Зарегистрироваться</button>
+  </form>
+  <p class="note">Отмечайте только то, что видите сами. За ложные отметки снижается уровень порядочности в профиле.</p>
+  <p class="alt">Уже есть аккаунт? <a href="{{ url_for('login') }}">Войти</a></p>
+</main>
+{% endblock %}

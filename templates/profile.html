@@ -1,0 +1,22 @@
+{% extends "base.html" %}
+{% block title %}Профиль — СтопКонтроль{% endblock %}
+{% block content %}
+<main class="page">
+  <section class="card center">
+    <div class="avatar">{{ current_user['name'][:1]|upper }}</div>
+    <h1>{{ current_user['name'] }}</h1>
+    <p class="muted">{{ current_user['email'] }}</p>
+    <div class="trust">
+      <div class="trust-top"><span>Уровень порядочности</span><b>{{ '%.1f'|format(current_user['rating']) }} / 10</b></div>
+      <div class="bar"><i style="width: {{ current_user['rating'] * 10 }}%"></i></div>
+      <p class="muted small">За каждую ложную отметку снимается 0,1. Отмечайте только то, что видите сами.</p>
+    </div>
+    <div class="stats2"><div><b>{{ total }}</b><span>отметок</span></div><div><b>{{ confirmed }}</b><span>подтверждено</span></div></div>
+  </section>
+  <section class="card"><h2>Город</h2><p>{{ city_name }}</p><a class="btn" href="{{ url_for('city') }}">Сменить город</a></section>
+  <section class="card"><h2>Уведомления</h2>
+    {% for n in items %}<div class="notif"><div>{{ n['text'] }}</div><small class="muted">{{ n['created_at'][:16].replace('T', ' ') }}</small></div>
+    {% else %}<p class="muted">Пока нет уведомлений.</p>{% endfor %}</section>
+  <form method="post" action="{{ url_for('logout') }}"><input type="hidden" name="csrf" value="{{ csrf_token() }}"><button class="btn block">Выйти</button></form>
+</main>
+{% endblock %}

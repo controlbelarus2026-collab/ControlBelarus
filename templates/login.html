@@ -1,0 +1,15 @@
+{% extends "base.html" %}
+{% block title %}Вход — СтопКонтроль{% endblock %}
+{% block content %}
+<main class="auth">
+  <div class="logo"><svg class="ic"><use href="#i-alert"/></svg></div>
+  <h1>Вход</h1>
+  <form method="post" class="form">
+    <input type="hidden" name="csrf" value="{{ csrf_token() }}">
+    <label>Электронная почта<input type="email" name="email" value="{{ email }}" autocomplete="email" inputmode="email" required></label>
+    <label>Пароль<input type="password" name="password" autocomplete="current-password" required></label>
+    <button class="btn primary block">Войти</button>
+  </form>
+  <p class="alt">Нет аккаунта? <a href="{{ url_for('register') }}">Зарегистрироваться</a></p>
+</main>
+{% endblock %}

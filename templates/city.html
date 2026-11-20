@@ -1,0 +1,16 @@
+{% extends "base.html" %}
+{% block title %}Выбор города — СтопКонтроль{% endblock %}
+{% block content %}
+<main class="auth">
+  <div class="logo"><svg class="ic"><use href="#i-pin"/></svg></div>
+  <h1>Выберите город</h1>
+  <p class="lead">Покажем остановки вашего города.</p>
+  <div class="citylist">
+    {% for c in cities %}
+    <form method="post"><input type="hidden" name="csrf" value="{{ csrf_token() }}"><input type="hidden" name="city_id" value="{{ c['id'] }}">
+      <button class="citybtn"><span>{{ c['name'] }}</span><small>{{ c['n'] }} остановок</small></button></form>
+    {% endfor %}
+  </div>
+  <p class="note">Другие города появятся позже.</p>
+</main>
+{% endblock %}

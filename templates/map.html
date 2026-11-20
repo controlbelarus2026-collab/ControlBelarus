@@ -1,0 +1,36 @@
+{% extends "base.html" %}
+{% block title %}Карта — СтопКонтроль{% endblock %}
+{% block head %}<link rel="stylesheet" href="https://unpkg.com/maplibre-gl@4.7.1/dist/maplibre-gl.css">{% endblock %}
+{% block bodyclass %}mapbody{% endblock %}
+{% block back %}{% endblock %}
+{% block content %}
+<div id="map" class="map" aria-label="Карта остановок"></div>
+<a href="{{ url_for('profile') }}" class="pill profile" aria-label="Профиль">
+  <svg class="ic"><use href="#i-user"/></svg><b>{{ '%.1f'|format(current_user['rating']) }}</b>
+  {% if unread %}<i class="dotbadge"></i>{% endif %}
+</a>
+<div class="pill cityname"><svg class="ic"><use href="#i-pin"/></svg>{{ city['name'] }}</div>
+<div class="legend">
+  <span><i class="lg control"></i>Контроль</span><span><i class="lg left"></i>Уехал</span><span><i class="lg normal"></i>Нет</span>
+</div>
+<button type="button" id="locateBtn" class="fab locate" aria-label="Моё местоположение"><svg class="ic"><use href="#i-locate"/></svg></button>
+<div id="empty" class="emptynote" hidden>Остановки пока не загружены. Попробуйте обновить страницу позже.</div>
+
+<section id="sheet" class="sheet" aria-live="polite">
+  <div class="grab"></div>
+  <div class="sh-head"><div><h2 id="shName"></h2><p id="shStatus" class="sh-status"></p></div>
+    <button type="button" id="shClose" class="iconbtn" aria-label="Закрыть"><svg class="ic"><use href="#i-close"/></svg></button></div>
+  <div id="shRound" class="sh-round" hidden></div>
+  <div class="votes">
+    <button type="button" class="vbtn present" data-kind="present"><svg class="ic"><use href="#i-alert"/></svg><span>Контроль стоит</span></button>
+    <button type="button" class="vbtn absent" data-kind="absent"><svg class="ic"><use href="#i-close"/></svg><span>Контроля нет</span></button>
+    <button type="button" class="vbtn left" data-kind="left"><svg class="ic"><use href="#i-check"/></svg><span>Уехал</span></button>
+  </div>
+</section>
+<div id="toast" class="toast" hidden></div>
+{% endblock %}
+{% block scripts %}
+<script>window.APP = {{ {"city": city, "csrf": csrf_token(), "window": window, "needed": needed}|tojson }};</script>
+<script src="https://unpkg.com/maplibre-gl@4.7.1/dist/maplibre-gl.js"></script>
+<script src="{{ url_for('static', filename='map.js') }}"></script>
+{% endblock %}
